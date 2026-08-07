@@ -122,10 +122,48 @@ def summary_pods():
     "total_cpu": total_cpu,
     "total_memory": total_memory,
     "highest_cpu_pod": highest_cpu_pod
-        
-        
-        
-    }           
+         }
+    
+    
+'''
+Task 5: Pod Resource Alert System
+
+pods.json file read karo aur sirf Running pods check karo.
+
+Agar kisi pod ka:
+
+CPU >= 4 ya
+Memory >= 8000
+
+hai, toh uska alert print karo.
+
+Expected output format:
+
+ALERT: db-server is consuming high resources
+CPU: 4
+Memory: 8192
+
+
+'''
+def alert_pods():
+    from pathlib import Path
+    import json
+    path = Path('pods.json')
+    content = path.read_text()
+    pods = json.loads(content)
+    pod_name = ""
+    for container in pods:
+        if container["status"] == "Running":
+            if container["cpu"] >= 4 or container["memory"] >= 8000:
+                pod_name = container["name"]
+                pod_cpu = container["cpu"]
+                pod_mem = container["memory"]
+                print(f'ALERT: {pod_name} is consuming high resources')
+                print(f'CPU: {pod_cpu}')
+                print(f'Memory: {pod_mem}')
+                
+                
+            
             
             
 
