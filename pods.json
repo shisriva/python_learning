@@ -1,0 +1,20 @@
+[
+    {
+        "name": "api-server",
+        "cpu": 2,
+        "memory": 4096,
+        "status": "Running"
+    },
+    {
+        "name": "redis",
+        "cpu": 1,
+        "memory": 1024,
+        "status": "Running"
+    },
+    {
+        "name": "worker",
+        "cpu": 4,
+        "memory": 8192,
+        "status": "Pending"
+    }
+]
