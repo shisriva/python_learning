@@ -162,9 +162,91 @@ def alert_pods():
                 print(f'CPU: {pod_cpu}')
                 print(f'Memory: {pod_mem}')
                 
+'''
+Task 6: Pod Resource Report Generator
+
+Tumhe ek Python script likhni hai jo:
+
+pods.json file ko read kare
+Running pods ka analysis kare
+Ek summary report dictionary banaye
+Report ko ek nayi JSON file mein save kare
+Input File:
+
+pods.json
+
+Isme pod details hain:
+
+pod name
+CPU usage
+memory usage
+status
+Report mein ye information honi chahiye:
+Total Running Pods
+Total CPU consumed by Running Pods
+Total Memory consumed by Running Pods
+Highest CPU consuming Running Pod
+High Resource Alert Pods
+CPU >= 4 ya
+Memory >= 8000
+Output File:
+
+Create:
+
+pod_report.json
+
+Expected format:
+
+{
+    "total_running_pods": 3,
+    "total_cpu": 9,
+    "total_memory": 18432,
+    "highest_cpu_pod": "db-server",
+    "alert_pods": [
+        "db-server"
+    ]
+}
+
+
+'''
+              
+def alert_pods_report():
+    from pathlib import Path
+    import json
+    path = Path('pods.json')
+    content = path.read_text()
+    pods = json.loads(content)
+    pod_name = []
+    running_pod = 0
+    total_cpu = 0
+    total_memory = 0
+    max_cpu = 0
+    container_name = ""
+    for container in pods:
+        if container["status"] == "Running":
+            running_pod += 1
+            total_cpu += container["cpu"]
+            total_memory += container["memory"]
+            if container["cpu"] > max_cpu:
+               max_cpu = container["cpu"]
+               container_name = container["name"]
+            if container["cpu"] >= 4 or container["memory"] >= 8000:
+               pod_name.append(container["name"])
+    return{
+        
+    "total_running_pods": running_pod,
+    "total_cpu": total_cpu,
+    "total_memory": total_memory,
+    "highest_cpu_pod": container_name,
+    "alert_pods": pod_name
+        
+    }
                 
-            
-            
+    
+report = alert_pods_report()
+path = Path('reports.json')
+content = json.dumps(report, indent=4))
+path.write_text(content)
             
 
         
